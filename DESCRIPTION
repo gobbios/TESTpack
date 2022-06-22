@@ -11,5 +11,6 @@ RoxygenNote: 7.2.0
 Suggests: 
     knitr,
     rmarkdown,
-    bookdown
+    bookdown,
+    cmdstanr
 VignetteBuilder: knitr

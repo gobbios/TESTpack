@@ -22,6 +22,10 @@ library(testpack)
 ```
 
 
+```{r}
+library(cmdstanr)
+```
+
 
 
 

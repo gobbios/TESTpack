@@ -47,6 +47,12 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: Install cmdstanr
+        run: |
+          install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+          cmdstanr::install_cmdstan()
+        shell: Rscript {0}
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
