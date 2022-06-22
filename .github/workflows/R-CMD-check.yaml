@@ -72,8 +72,8 @@ jobs:
           install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
           cmdstanr::install_cmdstan()
           remotes::install_deps(dependencies = TRUE)
-          # remotes::install_cran("rcmdcheck")
-          # install.packages("curl")
+          remotes::install_cran("rcmdcheck")
+          install.packages("curl")
         shell: Rscript {0}
 
       - name: Install cmdstan
