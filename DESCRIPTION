@@ -12,5 +12,6 @@ Suggests:
     knitr,
     rmarkdown,
     bookdown,
-    cmdstanr
+    cmdstanr,
+    rstan
 VignetteBuilder: knitr

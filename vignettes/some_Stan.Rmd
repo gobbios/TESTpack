@@ -3,11 +3,12 @@ title: "some `Stan`"
 output: 
   bookdown::pdf_document2:
     toc: false
-
 vignette: >
   %\VignetteIndexEntry{some_Stan}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -22,10 +23,62 @@ library(testpack)
 ```
 
 
-```{r}
+```{r, include=FALSE}
+suppressPackageStartupMessages(library(cmdstanr))
+suppressPackageStartupMessages(library(rstan))
+cmdstanr::register_knitr_engine(override = FALSE)
+```
+
+
+```{r, results='hide'}
 library(cmdstanr)
+library(rstan)
+cmdstanr::register_knitr_engine(override = FALSE)
 ```
 
 
 
+
+## via `cmdstanr`
+
+```{cmdstan, output.var="cmdstanmod1"}
+parameters {
+  array[2] real y;
+}
+model {
+  y[1] ~ normal(0, 1);
+  y[2] ~ double_exponential(0, 2);
+}
+```
+
+```{r}
+fit <- cmdstanmod1$sample(refresh = 0)
+print(fit)
+```
+
+## via `rstan`
+
+```{stan, output.var="rstanmod1"}
+data {
+  int<lower=0> N;
+  real y[N];
+} 
+
+parameters {
+  real mu;
+} 
+
+model {
+  target += normal_lpdf(mu | 0, 10);
+  target += normal_lpdf(y  | mu, 1);
+} 
+
+```
+
+
+```{r}
+dat <- list(N = 20, y = rnorm(20)); 
+fit <- sampling(object = rstanmod1, data = dat, refresh = 0)
+summary(fit)$summary
+```
 
