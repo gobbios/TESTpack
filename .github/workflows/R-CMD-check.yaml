@@ -67,20 +67,22 @@ jobs:
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
-      - name: Install dependencies
+      - name: Install dependencies incl cmdstan
         run: |
           install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
-          cmdstanr::install_cmdstan()
+          cmdstanr::check_cmdstan_toolchain(fix = TRUE)
+          cmdstanr::install_cmdstan(cores = 2)
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           install.packages("curl")
+          remotes::install_github("gobbios/EloSteepness", build_vignettes = FALSE, dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Install cmdstan
         run: |
           # print(list.files("C:/rtools42"))
-          cmdstanr::check_cmdstan_toolchain(fix = TRUE)
-          cmdstanr::install_cmdstan(cores = 2)
+          # cmdstanr::check_cmdstan_toolchain(fix = TRUE)
+          # cmdstanr::install_cmdstan(cores = 2)
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
