@@ -41,6 +41,24 @@ cmdstanr::register_knitr_engine(override = FALSE)
 
 ## via `cmdstanr`
 
+<!-- It seems that using cmdstan code chunks don't work readily with the GitHub action CI... -->
+
+<!-- ```{r, echo=FALSE} -->
+<!-- model_code <- " -->
+<!-- parameters { -->
+<!--   array[2] real y; -->
+<!-- } -->
+<!-- model { -->
+<!--   y[1] ~ normal(0, 1); -->
+<!--   y[2] ~ double_exponential(0, 2); -->
+<!-- } -->
+<!-- " -->
+
+<!-- loc <- write_stan_file(code = model_code, force_overwrite = FALSE) -->
+<!-- cmdstanmod <- cmdstan_model(loc, compile = TRUE) -->
+<!-- ``` -->
+
+
 ```{cmdstan, output.var="cmdstanmod1"}
 parameters {
   array[2] real y;
@@ -58,27 +76,28 @@ print(fit)
 
 ## via `rstan`
 
-```{stan, output.var="rstanmod1"}
-data {
-  int<lower=0> N;
-  real y[N];
-} 
 
-parameters {
-  real mu;
-} 
+<!-- ```{stan, output.var="rstanmod1"} -->
+<!-- data { -->
+<!--   int<lower=0> N; -->
+<!--   real y[N]; -->
+<!-- }  -->
 
-model {
-  target += normal_lpdf(mu | 0, 10);
-  target += normal_lpdf(y  | mu, 1);
-} 
+<!-- parameters { -->
+<!--   real mu; -->
+<!-- }  -->
 
-```
+<!-- model { -->
+<!--   target += normal_lpdf(mu | 0, 10); -->
+<!--   target += normal_lpdf(y  | mu, 1); -->
+<!-- }  -->
+
+<!-- ``` -->
 
 
-```{r}
-dat <- list(N = 20, y = rnorm(20)); 
-fit <- sampling(object = rstanmod1, data = dat, refresh = 0)
-summary(fit)$summary
-```
+<!-- ```{r} -->
+<!-- dat <- list(N = 20, y = rnorm(20));  -->
+<!-- fit <- sampling(object = rstanmod1, data = dat, refresh = 0) -->
+<!-- summary(fit)$summary -->
+<!-- ``` -->
 
