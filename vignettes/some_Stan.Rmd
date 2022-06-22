@@ -1,0 +1,27 @@
+---
+title: "some `Stan`"
+output: 
+  bookdown::pdf_document2:
+    toc: false
+
+vignette: >
+  %\VignetteIndexEntry{some_Stan}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(testpack)
+```
+
+
+
+
+
