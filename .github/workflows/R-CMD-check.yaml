@@ -27,11 +27,34 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      NOT_CRAN: true
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
 
     steps:
+      - name: cmdstan env vars
+        run: |
+          echo "CMDSTAN_PATH=${HOME}/.cmdstan" >> $GITHUB_ENV
+        shell: bash
+
       - uses: actions/checkout@v2
 
+      - name: Install Rtools42
+        if: runner.os == 'Windows'
+        run: |
+          $source = 'https://cran.r-project.org/bin/windows/Rtools/rtools42/files/rtools42-5253-5107.exe'
+          $destination = '../rtools42.exe'
+          Invoke-WebRequest -Uri $source -OutFile $destination
+          Start-Process -FilePath ../rtools42.exe -ArgumentList /VERYSILENT -NoNewWindow -Wait
+        shell: powershell
+
       - uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -42,17 +65,21 @@ jobs:
       - uses: r-lib/actions/setup-tinytex@v2
       - run: tlmgr --version
 
-      - name: Install cmdstanr
+
+
+      - name: Install dependencies
         run: |
-          install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
-          cmdstanr::install_cmdstan()
+          remotes::install_deps(dependencies = TRUE)
+          # remotes::install_cran("rcmdcheck")
+          # install.packages("curl")
         shell: Rscript {0}
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
-
+      - name: Install cmdstan
+        run: |
+          # print(list.files("C:/rtools42"))
+          cmdstanr::check_cmdstan_toolchain(fix = TRUE)
+          cmdstanr::install_cmdstan(cores = 2)
+        shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
         with:
