@@ -77,9 +77,10 @@ jobs:
           cmdstanr::check_cmdstan_toolchain(fix = TRUE)
           cmdstanr::install_cmdstan(cores = 2)
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rstan")
           remotes::install_cran("rcmdcheck")
           install.packages("curl")
-          remotes::install_github("gobbios/EloSteepness", build_vignettes = FALSE, dependencies = TRUE)
+          # remotes::install_github("gobbios/EloSteepness", build_vignettes = FALSE, dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Install cmdstan
