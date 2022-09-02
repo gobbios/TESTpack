@@ -51,6 +51,15 @@ jobs:
       #     Start-Process -FilePath ../rtools42.exe -ArgumentList /VERYSILENT -NoNewWindow -Wait
       #   shell: powershell
 
+      - name: Install Rtools35
+        if: runner.os == 'Windows'
+        run: |
+          $source = 'https://cran.r-project.org/bin/windows/Rtools/Rtools35.exe'
+          $destination = '../Rtools35.exe'
+          Invoke-WebRequest -Uri $source -OutFile $destination
+          Start-Process -FilePath ../Rtools35.exe -ArgumentList /VERYSILENT -NoNewWindow -Wait
+        shell: powershell
+
       - uses: r-lib/actions/setup-pandoc@v2
 
 
@@ -94,3 +103,4 @@ jobs:
         with:
           upload-snapshots: true
           error-on: '"error"'
+

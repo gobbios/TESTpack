@@ -4,12 +4,14 @@
 \alias{add}
 \title{add two numbers}
 \usage{
-add(a, b)
+add(a, b, really = TRUE)
 }
 \arguments{
 \item{a}{numeric}
 
 \item{b}{numeric}
+
+\item{really}{logical}
 }
 \value{
 a number
