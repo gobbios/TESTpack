@@ -1,5 +1,6 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/gobbios/testpack/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gobbios/testpack/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/gobbios/testpack/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gobbios/testpack?branch=main)
 <!-- badges: end -->
 
 This package serves just the purpose of testing things related to package development.
