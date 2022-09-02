@@ -104,5 +104,3 @@ jobs:
           upload-snapshots: true
           error-on: '"error"'
 
-      - uses: codecov/codecov-action@v3
-
