@@ -77,6 +77,7 @@ jobs:
           install.packages("curl")
           remotes::install_github("gobbios/EloSteepness", build_vignettes = FALSE, dependencies = TRUE)
           remotes::install_github("paul-buerkner/brms", build_vignettes = FALSE, dependencies = TRUE)
+          install.packages("covr")
         shell: Rscript {0}
 
 
@@ -85,11 +86,6 @@ jobs:
           upload-snapshots: true
           error-on: '"error"'
 
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::covr
-          needs: coverage
 
       - name: Test coverage
         run: covr::codecov(quiet = FALSE)
