@@ -75,7 +75,8 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           install.packages("curl")
-          install.packages("EloSteepness")
+          remotes::install_cran("EloSteepness", build_vignettes = FALSE)
+          remotes::install_github("gobbios/EloSteepness.data", build_vignettes = FALSE)
           install.packages("brms")
           install.packages("covr")
         shell: Rscript {0}
