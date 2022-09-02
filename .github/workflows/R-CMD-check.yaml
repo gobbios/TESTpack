@@ -19,14 +19,10 @@ jobs:
       matrix:
         config:
           - {os: macOS-latest,   r: 'release'}
-          - {os: macOS-latest,   r: '4.1.3'}
-          - {os: macOS-latest,   r: '3.6.3'}
           - {os: windows-latest, r: 'release'}
-          - {os: windows-latest, r: '4.1.3'}
-          - {os: windows-latest, r: '3.6.3'}
           - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: '3.6.3'}
+          - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -49,15 +45,6 @@ jobs:
           $destination = '../rtools42.exe'
           Invoke-WebRequest -Uri $source -OutFile $destination
           Start-Process -FilePath ../rtools42.exe -ArgumentList /VERYSILENT -NoNewWindow -Wait
-        shell: powershell
-
-      - name: Install Rtools35
-        if: runner.os == 'Windows'
-        run: |
-          $source = 'https://cran.r-project.org/bin/windows/Rtools/Rtools35.exe'
-          $destination = '../Rtools35.exe'
-          Invoke-WebRequest -Uri $source -OutFile $destination
-          Start-Process -FilePath ../Rtools35.exe -ArgumentList /VERYSILENT -NoNewWindow -Wait
         shell: powershell
 
       - uses: r-lib/actions/setup-pandoc@v2
@@ -86,23 +73,18 @@ jobs:
           cmdstanr::check_cmdstan_toolchain(fix = TRUE)
           cmdstanr::install_cmdstan(cores = 2)
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rstan")
           remotes::install_cran("rcmdcheck")
           install.packages("curl")
-          # remotes::install_github("gobbios/EloSteepness", build_vignettes = FALSE, dependencies = TRUE)
+          remotes::install_github("gobbios/EloSteepness", build_vignettes = FALSE, dependencies = TRUE)
+          remotes::install_github("paul-buerkner/brms", build_vignettes = FALSE, dependencies = TRUE)
         shell: Rscript {0}
 
-      - name: Install cmdstan
-        run: |
-          # print(list.files("C:/rtools42"))
-          # cmdstanr::check_cmdstan_toolchain(fix = TRUE)
-          # cmdstanr::install_cmdstan(cores = 2)
-        shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
           error-on: '"error"'
+
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
