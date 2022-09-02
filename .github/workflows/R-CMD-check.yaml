@@ -104,3 +104,12 @@ jobs:
           upload-snapshots: true
           error-on: '"error"'
 
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr
+          needs: coverage
+
+      - name: Test coverage
+        run: covr::codecov(quiet = FALSE)
+        shell: Rscript {0}
+
