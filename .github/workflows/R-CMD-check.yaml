@@ -84,6 +84,16 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           install.packages("curl")
+          if (.Platform$OS.type == "windows") {
+            if (as.numeric(R.version$major) + as.numeric(R.version$minor)/10 >= 4.2) {
+              if (system.file(package = "BH") != "") remove.packages("BH")
+              if (system.file(package = "StanHeaders") != "") remove.packages("StanHeaders")
+              if (system.file(package = "rstan") != "") remove.packages("rstan")
+              remotes::install_cran("BH")
+              install.packages("StanHeaders", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+              install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+            }
+          }
           remotes::install_cran("EloSteepness", build_vignettes = FALSE)
           remotes::install_github("gobbios/EloSteepness.data", build_vignettes = FALSE)
           install.packages("brms")
