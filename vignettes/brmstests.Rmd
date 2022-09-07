@@ -1,0 +1,29 @@
+---
+title: "brmstests"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{brmstests}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(testpack)
+library(brms)
+```
+
+
+```{r}
+data("inhaler")
+b <- brm(rating ~ period + carry + cs(treat), data = inhaler, family = sratio(link = "logit"), prior = set_prior("normal(0, 5)"), chains = 2)
+```
+

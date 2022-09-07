@@ -1,0 +1,32 @@
+---
+title: "phylo_packs"
+output: 
+  bookdown::pdf_document2:
+    toc: true
+    keep_tex: false
+vignette: >
+  %\VignetteIndexEntry{phylo_packs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, echo=FALSE}
+suppressPackageStartupMessages(library(EloSteepness))
+suppressPackageStartupMessages(library(EloSteepness.data))
+suppressPackageStartupMessages(library(rstan))
+suppressPackageStartupMessages(library(cmdstanr))
+suppressPackageStartupMessages(library(ape))
+suppressPackageStartupMessages(library(xtable))
+suppressPackageStartupMessages(library(brms))
+```
+
+```{r setup}
+library(testpack)
+```
