@@ -1,0 +1,46 @@
+---
+title: "some notes on package development"
+output: 
+  bookdown::pdf_document2:
+    toc: false
+vignette: >
+  %\VignetteIndexEntry{dev_notes}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(testpack)
+```
+
+
+If the package does contain pdf vignettes CRAN seems to complain if these files were not compressed.
+So here is a file with a figure.
+
+When building the source package, either use 
+
+```{r, eval=FALSE}
+devtools::build(args = c('--compact-vignettes=both'))
+```
+
+
+The following seems not to work... !!!
+
+Alternatively, add '--compact-vignettes=both' to the build options in the package options of the package's RStudio project.
+
+
+```{r}
+plot(rnorm(1000), rnorm(1000))
+```
+
+
+
